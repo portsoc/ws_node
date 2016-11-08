@@ -4,7 +4,7 @@
   "description": "first steps with node",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/qnit  test.js"
+    "test": "./node_modules/qunit/bin/cli.js -c index.js -t test.js"
   },
   "keywords": [
     "node"
@@ -14,5 +14,6 @@
   "devDependencies": {
     "qnit": "^0.13.0",
     "qunit": "^0.9.1"
-  }
+  },
+  "repository": "https://github.com/portsoc/ws_node.git"
 }
