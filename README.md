@@ -7,6 +7,8 @@ An intro to node.
 Running Tests
 -------------
 
+We continue to use QUnit to define tests that you should attempt to complete.  The difference now is that there is no browser you you must install the source code, and the test framework and then run the tests from the command line.
+
 1. To download the code, either use git (the simplest option):
 ```bash
 git clone https://github.com/portsoc/ws_node.git
@@ -19,7 +21,7 @@ then
 ```bash
 gunzip master.zip
 ```
-2. To download the qunit files to your server type:
+2. To download the QUnit files (and any libraries it uses, which you need to do before the first run of tests, but just the once) type:
 ```bash
 npm init
 ```
