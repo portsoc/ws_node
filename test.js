@@ -1,8 +1,10 @@
 var fs = require('fs');
+var http = require('http');
 
 var dir = "./worksheet/";
 
 var pathUtil = "utility.js";
+var pathWeb = "webserver.js";
 
 /**
  * Create a file `utility.js` within
@@ -112,4 +114,104 @@ test("Largest",
         assert.ok( util.largest([1,2,3,4,5,6,7,8,3,-5]) == 8, "8 is th largest" );
         assert.ok( util.largest([1]) == 1, "single element array works") ;
     }
+);
+
+
+
+/**
+ * Create a file `webserver.js` within
+ * the worksheet folder.
+ */
+test(
+  "Create a file `" + pathWeb + "`",
+  function () {
+    try {
+      fs.accessSync(dir+pathWeb, fs.F_OK);
+      ok(true, pathWeb + " created");
+    } catch (e) {
+      ok(false, pathWeb + " is missing - please create it");
+    }
+});
+
+test(
+  "No server at first",
+  function () {
+    var options = {
+      host: 'localhost',
+      port: '8080',
+      method: 'GET',
+      path: '/',
+    }
+
+    expect(1);
+    stop();
+
+    var req = http.request(options, function(response) {
+      ok(false, 'before we start the server, the request should fail - make sure you are not running anything on port 8080');
+      start();
+    });
+    req.on('error', function (e) {
+      equal(e.errno, 'ECONNREFUSED', 'connection should be refused - make sure you are not running anything on port 8080');
+      start();
+    });
+    req.end();
+  }
+);
+
+
+test(
+  "Adding service on /add",
+  function () {
+    require(dir+pathWeb);
+    var options = {
+      host: 'localhost',
+      port: '8080',
+      method: 'GET',
+      path: '/add?a=2&b=3.4',
+    }
+
+    stop();
+
+    var req = http.request(options, function(response) {
+      equal(response.statusCode, 200, 'successful /add should return status code 200');
+      var str = '';
+      response.on('data', function(chunk) { str += chunk; });
+      response.on('end', function() {
+        equal(str.trim(), '5.4', '/add should add parameters a and b as numbers');
+        start();
+      })
+    });
+    req.on('error', function (e) {
+      ok(false);
+      start();
+    });
+    req.end();
+  }
+);
+
+
+test(
+  "404",
+  function () {
+    require(dir+pathWeb);
+    var options = {
+      host: 'localhost',
+      port: '8080',
+      method: 'GET',
+      path: '/notthere',
+    }
+
+    expect(1);
+    stop();
+
+    var req = http.request(options, function(response) {
+      equal(response.statusCode, 404, 'server should return 404 for /notthere');
+      start();
+    });
+    req.on('error', function (e) {
+      ok(false);
+      start();
+    });
+    req.end();
+  }
 );
