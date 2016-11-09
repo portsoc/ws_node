@@ -118,8 +118,27 @@ test("Largest",
 
 
 /**
- * Create a file `webserver.js` within
- * the worksheet folder.
+ * Create a file `webserver.js` within the worksheet folder.
+ *
+ * Reuse the code from the http.js example to implement
+ * a web server that can listen on port 8080.
+ *
+ * Adapt the code in http2 so that your server responds
+ * to requests `/add`.
+ *
+ * Adapt the code in http3 so that your server accepts two parameters,
+ * `a` and `b` and returns the result of adding them together as a
+ * plain text response.
+ * e.g. '/add?a=2&b=3.4' should return 5.4
+ * e.g. '/add?a=100&b=9' should return 109
+ * e.g. '/add?b=300&a=200' should return 500
+ *
+ * If a path other than /add is requested a 404 error should be returned.
+ *
+ * Remember, for these tests to pass you need to start your web server
+ * so you may find having two command windows open helpful.
+ * Start your server thus:
+ *    i.e. `node webserver` at the command line.
  */
 test(
   "Create a file `" + pathWeb + "`",
@@ -132,34 +151,9 @@ test(
     }
 });
 
-test(
-  "No server at first",
-  function () {
-    var options = {
-      host: 'localhost',
-      port: '8080',
-      method: 'GET',
-      path: '/',
-    }
-
-    expect(1);
-    stop();
-
-    var req = http.request(options, function(response) {
-      ok(false, 'before we start the server, the request should fail - make sure you are not running anything on port 8080');
-      start();
-    });
-    req.on('error', function (e) {
-      equal(e.errno, 'ECONNREFUSED', 'connection should be refused - make sure you are not running anything on port 8080');
-      start();
-    });
-    req.end();
-  }
-);
-
 
 test(
-  "Adding service on /add",
+  "Add two numbers for the path /add",
   function () {
     require(dir+pathWeb);
     var options = {
@@ -167,7 +161,7 @@ test(
       port: '8080',
       method: 'GET',
       path: '/add?a=2&b=3.4',
-    }
+    };
 
     stop();
 
@@ -176,9 +170,9 @@ test(
       var str = '';
       response.on('data', function(chunk) { str += chunk; });
       response.on('end', function() {
-        equal(str.trim(), '5.4', '/add should add parameters a and b as numbers');
+        equal(str.trim(), '5.4', 'calling /add?a=2&b=3.4 returns 5.4');
         start();
-      })
+      });
     });
     req.on('error', function (e) {
       ok(false);
@@ -189,8 +183,9 @@ test(
 );
 
 
+
 test(
-  "404",
+  "Return a 404 for all non-existent paths",
   function () {
     require(dir+pathWeb);
     var options = {
@@ -198,7 +193,7 @@ test(
       port: '8080',
       method: 'GET',
       path: '/notthere',
-    }
+    };
 
     expect(1);
     stop();
