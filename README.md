@@ -40,6 +40,8 @@ code and the test framework and then run the tests from the command line:
   npm test
   ```
 
+4. Inside `test.js` you will find helpful comments that tell you what the tests expect.
+
 Git: A recommendation
 ----------------------
 If at all possible, we recommend you use git to download code rather than zips of a repository.  This is prefereable because if the repo is updated, then syncing those changes requires just one command (`git pull`) and usually any merging can be done automatically.  Git is very powerful and we heartily encourages you to become familiar with it.

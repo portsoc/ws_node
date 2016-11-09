@@ -123,10 +123,10 @@ test("Largest",
  * Reuse the code from the http.js example to implement
  * a web server that can listen on port 8080.
  *
- * Adapt the code in http2 so that your server responds
+ * Adapt the code in http3 so that your server responds
  * to requests `/add`.
  *
- * Adapt the code in http3 so that your server accepts two parameters,
+ * Adapt the code in http2 so that your server accepts two parameters,
  * `a` and `b` and returns the result of adding them together as a
  * plain text response.
  * e.g. '/add?a=2&b=3.4' should return 5.4
@@ -135,10 +135,9 @@ test("Largest",
  *
  * If a path other than /add is requested a 404 error should be returned.
  *
- * Remember, for these tests to pass you need to start your web server
- * so you may find having two command windows open helpful.
- * Start your server thus:
- *    i.e. `node webserver` at the command line.
+ * Running the tests starts your web server, but if you want to try it in
+ * your browser, you need to start the webserver explicitly, with the command
+ * `node worksheet/webserver`
  */
 test(
   "Create a file `" + pathWeb + "`",
