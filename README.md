@@ -31,7 +31,7 @@ code and the test framework and then run the tests from the command line:
 2. To download the QUnit files (and any libraries it uses, which you need to do before the first run of tests, but just the once) type:
 
   ```bash
-  npm init
+  npm install
   ```
 
 3. Run the tests by typing:
