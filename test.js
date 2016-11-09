@@ -21,16 +21,18 @@ test(
 
 
 /**
- * Borrow the code from the module example (i.e. testmodule.js in
+ * Reuse the code from the module example (i.e. func.js in
  * the examples folder) and paste it into `utility.js` so that
  * it becomes a javascript module.
  */
 test(
-  "Borrow the code from the module example",
+  "Borrow the add function.",
   function () {
     var util = require(path);
-    var msg = util.message("test");
-    equal(msg, "***test***", "module created");
+    var msg = util.add(4,3);
+    equal(util.add(4,3), 7, "4+3=7");
+    equal(util.add(0,0), 0, "0+0=0");
+    equal(util.add(1000,1000), 2000, "1000+1000=2000");
 });
 
 
@@ -39,6 +41,9 @@ test(
  * Create a function called compare that accepts two arrays of numbers
  * and compares the contents.  It should return true if the arrays are
  * identical and false otherwise.
+ *
+ * i.e. you've done this before, so you're now reusing your own code
+ * and turning it into a module.
  */
 test(
   "Compare Arrays",
@@ -65,24 +70,6 @@ test(
         );
     }
 );
-
-
-
-/**
- * Create a function that reverses an array.  It should take one parameter,
- * which is the array to be reversed, and return a new array with the elements
- * from the first array in the opposite order.  The original array should
- * not be altered.
- */
-test(
-  "Reverse array export",
-  function () {
-    var util = require(path);
-    ok(util.compare( util.reverse([1,2,3]), [3,2,1]), "reversing integers");
-    ok(util.compare( util.reverse([1]), [1]), "reversing a single value");
-    ok(util.compare( util.reverse([]), []), "reversing an empty array");
-    ok(util.compare( util.reverse(["one", "two", "three"]), ["three","two","one"]), "reversing strings");
-});
 
 
 

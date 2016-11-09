@@ -1,6 +1,9 @@
-exports.message = function(message) {
-  return "***" + message + "***";
-};
+
+function add(a,b) {
+  return a+b;
+}
+
+module.exports.add = add;
 
 
 exports.compare =  function(a,b) {
