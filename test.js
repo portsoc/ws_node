@@ -61,8 +61,29 @@ test(
 
         assert.ok(
             util.compare([4, 7, 11, 17], [4, 7, 11, 17]),
-            "two arrays, for idential elements each, should pass"
+            "two arrays, four idential elements each, should pass"
         );
+
+        assert.notOk(
+            util.compare([4, 7, 11, 17], [4, 7, 11]),
+            "different arrays that start the same, should not pass"
+        );
+
+        assert.notOk(
+            util.compare([4, 7, 11, 17], [4, 7, 11, 3]),
+            "different arrays that start the same, should not pass"
+        );
+
+        assert.notOk(
+            util.compare([4, 7, 11, 17], [4, 17, 7, 11]),
+            "two arrays in different order, should not pass"
+        );
+
+        assert.notOk(
+            util.compare([], [4, 17, 7, 11]),
+            "two arrays, one empty, should not pass"
+        );
+
     }
 );
 
