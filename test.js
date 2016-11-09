@@ -90,24 +90,6 @@ test(
 
 
 /**
- * Create a function that reverses an array.  It should take one parameter,
- * which is the array to be reversed, and return a new array with the elements
- * from the first array in the opposite order.  The original array should
- * not be altered.
- */
-test(
-  "Reverse array export",
-  function () {
-    var util = require(path);
-    ok(util.compare( util.reverse([1,2,3]), [3,2,1]), "reversing integers");
-    ok(util.compare( util.reverse([1]), [1]), "reversing a single value");
-    ok(util.compare( util.reverse([]), []), "reversing an empty array");
-    ok(util.compare( util.reverse(["one", "two", "three"]), ["three","two","one"]), "reversing strings");
-});
-
-
-
-/**
  * Create a function called largest that accepts an array
  * of numbers and returns the largest number.
  */
