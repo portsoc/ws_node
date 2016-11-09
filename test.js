@@ -1,19 +1,21 @@
 var fs = require('fs');
 
-var path = "./worksheet/utility.js";
+var dir = "./worksheet/";
+
+var pathUtil = "utility.js";
 
 /**
  * Create a file `utility.js` within
  * the worksheet folder.
  */
 test(
-  "Create a file `utility.js`",
+  "Create a file `" + pathUtil + "`",
   function () {
     try {
-        fs.accessSync(path, fs.F_OK);
-        ok(true, "utility.js created");
+        fs.accessSync(dir+pathUtil, fs.F_OK);
+        ok(true, pathUtil + " created");
     } catch (e) {
-        ok(false, "utility.js is missing - please create it");
+        ok(false, pathUtil + " is missing - please create it");
     }
 });
 
@@ -28,7 +30,7 @@ test(
 test(
   "Borrow the add function.",
   function () {
-    var util = require(path);
+    var util = require(dir+pathUtil);
     var msg = util.add(4,3);
     equal(util.add(4,3), 7, "4+3=7");
     equal(util.add(0,0), 0, "0+0=0");
@@ -48,7 +50,7 @@ test(
 test(
   "Compare Arrays",
     function(assert) {
-      var util = require(path);
+      var util = require(dir+pathUtil);
         assert.ok(
           typeof util.compare === "function",
           "Create a function called compare."
@@ -97,9 +99,9 @@ test(
  * Create a function called largest that accepts an array
  * of numbers and returns the largest number.
  */
-QUnit.test("Largest",
+test("Largest",
     function(assert) {
-      var util = require(path);
+      var util = require(dir+pathUtil);
         assert.ok(
           typeof util.largest === "function",
           "Create a function called largest."
