@@ -142,12 +142,35 @@ test("Largest",
 test(
   "Create a file `" + pathWeb + "`",
   function () {
+    expect(2);
     try {
       fs.accessSync(dir+pathWeb, fs.F_OK);
       ok(true, pathWeb + " created");
+
     } catch (e) {
       ok(false, pathWeb + " is missing - please create it");
     }
+
+    // check that before we start the server, no other server is
+    // taking the port 8080
+    var options = {
+      host: 'localhost',
+      port: '8080',
+      method: 'GET',
+      path: '/',
+    };
+
+    stop();
+
+    var req = http.request(options, function(response) {
+      ok(false, 'before we start the server, the request should fail - make sure you are not running anything on port 8080');
+      start();
+    });
+    req.on('error', function (e) {
+      equal(e.errno, 'ECONNREFUSED', 'if this assertion fails, make sure you are not running anything else on port 8080');
+      start();
+    });
+    req.end();
 });
 
 
