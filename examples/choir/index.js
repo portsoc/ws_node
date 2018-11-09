@@ -1,4 +1,4 @@
-let counters = {
+const counters = {
   doh:0,
   mi:0,
   so:0
