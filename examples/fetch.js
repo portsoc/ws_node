@@ -1,5 +1,8 @@
 const fetch = require("node-fetch");
 
-fetch("http://127.0.0.1:8080")
-  .then(response => response.text())
-  .then(console.log);
+async function main() {
+  const response = await fetch("http://127.0.0.1:8080");
+  console.log(await response.text());
+}
+
+main();
