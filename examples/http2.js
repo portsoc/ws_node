@@ -1,8 +1,8 @@
 const http = require('http');
 const url = require('url');
 const server = http.createServer(
-  function (request, response) {
-    let parsedUrl = url.parse(request.url, true);
+  (request, response) => {
+    const parsedUrl = url.parse(request.url, true);
     response.setHeader("Content-Type", "text/plain");
     response.end(`Hello ${parsedUrl.query.fname} ${parsedUrl.query.lname}!\n`);
   }
