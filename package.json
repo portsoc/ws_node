@@ -4,7 +4,7 @@
   "description": "first steps with node",
   "main": "index.js",
   "scripts": {
-    "test": "node ./node_modules/qunit/bin/cli.js -c index.js -t test.js | cat"
+    "test": "node ./node_modules/qunit/bin/cli.js -c index.js -t test.js"
   },
   "keywords": [
     "node"
