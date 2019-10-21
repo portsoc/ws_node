@@ -12,12 +12,12 @@ let pathWeb = "webserver.js";
  */
 QUnit.test(
   "Create a file `" + pathUtil + "`",
-  function () {
+  function (assert) {
     try {
       fs.accessSync(dir+pathUtil, fs.F_OK);
-      ok(true, pathUtil + " created");
+      assert.ok(true, pathUtil + " created");
     } catch (e) {
-      ok(false, pathUtil + " is missing - please create it");
+      assert.ok(false, pathUtil + " is missing - please create it");
     }
 });
 
@@ -31,12 +31,12 @@ QUnit.test(
  */
 QUnit.test(
   "Borrow the add function.",
-  function () {
+  function (assert) {
     let util = require(dir+pathUtil);
     let msg = util.add(4,3);
-    equal(util.add(4,3), 7, "4+3=7");
-    equal(util.add(0,0), 0, "0+0=0");
-    equal(util.add(1000,1000), 2000, "1000+1000=2000");
+    assert.equal(util.add(4,3), 7, "4+3=7");
+    assert.equal(util.add(0,0), 0, "0+0=0");
+    assert.equal(util.add(1000,1000), 2000, "1000+1000=2000");
 });
 
 
@@ -51,44 +51,44 @@ QUnit.test(
  */
 QUnit.test(
   "Compare Arrays",
-    function() {
+    function(assert) {
       let util = require(dir+pathUtil);
-        ok(
+        assert.ok(
           typeof util.compare === "function",
           "Create a function called compare."
         );
 
-        ok(
+        assert.ok(
           util.compare([1], [1]),
           "two arrays with 1, should pass"
         );
 
-        ok(
+        assert.ok(
           util.compare([1, 2, 3], [1, 2, 3]),
           "two identical arrays, should pass"
         );
 
-        ok(
+        assert.ok(
           util.compare([4, 7, 11, 17], [4, 7, 11, 17]),
           "two arrays, four idential elements each, should pass"
         );
 
-        ok(
+        assert.ok(
           !util.compare([4, 7, 11, 17], [4, 7, 11]),
           "different arrays that start the same, should not pass"
         );
 
-        ok(
+        assert.ok(
           !util.compare([4, 7, 11, 17], [4, 7, 11, 3]),
           "different arrays that start the same, should not pass"
         );
 
-        ok(
+        assert.ok(
           !util.compare([4, 7, 11, 17], [4, 17, 7, 11]),
           "two arrays in different order, should not pass"
         );
 
-        ok(
+        assert.ok(
           !util.compare([], [4, 17, 7, 11]),
           "two arrays, one empty, should not pass"
         );
@@ -101,17 +101,17 @@ QUnit.test(
  * of numbers and returns the largest number.
  */
 QUnit.test("Largest",
-    function() {
+    function(assert) {
       let util = require(dir+pathUtil);
-        ok(
+        assert.ok(
           typeof util.largest === "function",
           "Create a function called largest."
         );
-        ok( util.largest([0,1,2]) == 2, "2 is the largest of 0,2 & 2" );
-        ok( util.largest([1,1,3]) == 3, "2 is the largest of 1,1 & 3" );
-        ok( util.largest([2,2,2]) == 2, "2 is the largest of 2, 2 & 2");
-        ok( util.largest([1,2,3,4,5,6,7,8,3,-5]) == 8, "8 is th largest" );
-        ok( util.largest([1]) == 1, "single element array works") ;
+        assert.ok( util.largest([0,1,2]) == 2, "2 is the largest of 0,2 & 2" );
+        assert.ok( util.largest([1,1,3]) == 3, "2 is the largest of 1,1 & 3" );
+        assert.ok( util.largest([2,2,2]) == 2, "2 is the largest of 2, 2 & 2");
+        assert.ok( util.largest([1,2,3,4,5,6,7,8,3,-5]) == 8, "8 is th largest" );
+        assert.ok( util.largest([1]) == 1, "single element array works") ;
     }
 );
 
@@ -138,17 +138,21 @@ QUnit.test("Largest",
  * Running the tests starts your web server, but if you want to try it in
  * your browser, you need to start the webserver explicitly, with the command
  * `node worksheet/webserver`
+ *
+ * Make sure to export the result of http.createServer,
+ * e.g. if you have `const server = http.createServer(...)`
+ * then use `module.exports = server;`
  */
 QUnit.test(
   "Create a file `" + pathWeb + "`",
-  function () {
-    expect(2);
+  function (assert) {
+    assert.expect(2);
     try {
       fs.accessSync(dir+pathWeb, fs.F_OK);
-      ok(true, pathWeb + " created");
+      assert.ok(true, pathWeb + " created");
 
     } catch (e) {
-      ok(false, pathWeb + " is missing - please create it");
+      assert.ok(false, pathWeb + " is missing - please create it");
     }
 
     // check that before we start the server, no other server is
@@ -160,15 +164,15 @@ QUnit.test(
       path: '/',
     };
 
-    stop();
+    const done = assert.async();
 
     let req = http.request(options, function(response) {
-      ok(false, 'before we start the server, the request should fail - make sure you are not running anything on port 8080');
-      start();
+      assert.ok(false, 'before we start the server, the request should fail - make sure you are not running anything on port 8080');
+      done();
     });
     req.on('error', function (e) {
-      equal(e.errno, 'ECONNREFUSED', 'if this assertion fails, make sure you are not running anything else on port 8080');
-      start();
+      assert.equal(e.errno, 'ECONNREFUSED', 'if this assertion fails, make sure you are not running anything else on port 8080');
+      done();
     });
     req.end();
 });
@@ -176,7 +180,7 @@ QUnit.test(
 
 QUnit.test(
   "Add two numbers for the path /add",
-  function () {
+  function (assert) {
     require(dir+pathWeb);
     let options = {
       host: 'localhost',
@@ -185,20 +189,20 @@ QUnit.test(
       path: '/add?a=2&b=3.4',
     };
 
-    stop();
+    const done = assert.async();
 
     let req = http.request(options, function(response) {
-      equal(response.statusCode, 200, 'successful /add should return status code 200');
+      assert.equal(response.statusCode, 200, 'successful /add should return status code 200');
       let str = '';
       response.on('data', function(chunk) { str += chunk; });
       response.on('end', function() {
-        equal(str.trim(), '5.4', 'calling /add?a=2&b=3.4 returns 5.4');
-        start();
+        assert.equal(str.trim(), '5.4', 'calling /add?a=2&b=3.4 returns 5.4');
+        done();
       });
     });
     req.on('error', function (e) {
-      ok(false);
-      start();
+      assert.ok(false);
+      done();
     });
     req.end();
   }
@@ -208,8 +212,8 @@ QUnit.test(
 
 QUnit.test(
   "Return a 404 for all non-existent paths",
-  function () {
-    require(dir+pathWeb);
+  function (assert) {
+    const server = require(dir+pathWeb);
     let options = {
       host: 'localhost',
       port: '8080',
@@ -217,16 +221,18 @@ QUnit.test(
       path: '/notthere',
     };
 
-    expect(1);
-    stop();
+    assert.expect(1);
+    const done = assert.async();
 
     let req = http.request(options, function(response) {
-      equal(response.statusCode, 404, 'server should return 404 for /notthere');
-      start();
+      assert.equal(response.statusCode, 404, 'server should return 404 for /notthere');
+      done();
+      if (server) server.close();
     });
     req.on('error', function (e) {
-      ok(false);
-      start();
+      assert.ok(false);
+      done();
+      if (server) server.close();
     });
     req.end();
   }
