@@ -10,7 +10,7 @@ let pathWeb = "webserver.js";
  * Create a file `utility.js` within
  * the worksheet folder.
  */
-test(
+QUnit.test(
   "Create a file `" + pathUtil + "`",
   function () {
     try {
@@ -29,7 +29,7 @@ test(
  * the examples folder) and paste it into `utility.js` so that
  * it becomes a javascript module.
  */
-test(
+QUnit.test(
   "Borrow the add function.",
   function () {
     let util = require(dir+pathUtil);
@@ -49,7 +49,7 @@ test(
  * i.e. you've done this before, so you're now reusing your own code
  * and turning it into a module.
  */
-test(
+QUnit.test(
   "Compare Arrays",
     function() {
       let util = require(dir+pathUtil);
@@ -100,7 +100,7 @@ test(
  * Create a function called largest that accepts an array
  * of numbers and returns the largest number.
  */
-test("Largest",
+QUnit.test("Largest",
     function() {
       let util = require(dir+pathUtil);
         ok(
@@ -139,7 +139,7 @@ test("Largest",
  * your browser, you need to start the webserver explicitly, with the command
  * `node worksheet/webserver`
  */
-test(
+QUnit.test(
   "Create a file `" + pathWeb + "`",
   function () {
     expect(2);
@@ -174,7 +174,7 @@ test(
 });
 
 
-test(
+QUnit.test(
   "Add two numbers for the path /add",
   function () {
     require(dir+pathWeb);
@@ -206,7 +206,7 @@ test(
 
 
 
-test(
+QUnit.test(
   "Return a 404 for all non-existent paths",
   function () {
     require(dir+pathWeb);
