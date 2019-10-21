@@ -227,12 +227,20 @@ QUnit.test(
     let req = http.request(options, function(response) {
       assert.equal(response.statusCode, 404, 'server should return 404 for /notthere');
       done();
-      if (server) server.close();
+      if (server.close) {
+        server.close();
+      } else {
+        console.log(`If this does not quit, ${pathWeb} probably needs to export the server.\nPress ctrl-c to end the test.`);
+      }
     });
     req.on('error', function (e) {
       assert.ok(false);
       done();
-      if (server) server.close();
+      if (server.close) {
+        server.close();
+      } else {
+        console.log(`If this does not quit, ${pathWeb} probably needs to export the server.\nPress ctrl-c to end the test.`);
+      }
     });
     req.end();
   }
