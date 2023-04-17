@@ -12,7 +12,7 @@
   "author": "Rich Boakes <rjb@boakes.org> (http://boakes.org/)",
   "license": "ISC",
   "devDependencies": {
-    "qunit": "^2.8.0"
+    "qunit": "^2.19.4"
   },
   "repository": "https://github.com/portsoc/ws_node.git",
   "dependencies": {
